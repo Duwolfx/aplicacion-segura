@@ -18,12 +18,12 @@ app.use(cookieParser()); // Middleware para parsear cookies
 
 // 4. Definir rutas (se añadirán más adelante)
 app.get('/', (req, res) => {
-res.json({ message: 'API de la aplicación segura funcionando correctamente.' });
+    res.json({ message: 'API de la aplicación segura funcionando correctamente.' });
 });
 
 // 5. Iniciar el servidor
 app.listen(PORT, () => {
-console.log(`Servidor escuchando en el puerto ${PORT}`);
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
 

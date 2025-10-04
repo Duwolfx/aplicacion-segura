@@ -15,25 +15,25 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT NOT NULL UNIQUE,
                     password_hash TEXT NOT NULL,
-                    role TEXT NOT NULL CHECK(role IN ('user', 'admin')) DEFAULT 'user')`, 
-            (err) => {
-                if (err) {
-                    console.error("Error al crear la tabla de usuarios:", err.message);
-                }
-            });
+                    role TEXT NOT NULL CHECK(role IN ('user', 'admin')) DEFAULT 'user')`,
+                (err) => {
+                    if (err) {
+                        console.error("Error al crear la tabla de usuarios:", err.message);
+                    }
+                });
             // Crear tabla de productos si no existe
             db.run(`CREATE TABLE IF NOT EXISTS products (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     description TEXT,
                     owner_id INTEGER NOT NULL,
-                    FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE)`, 
-            (err) => {
-                if (err) {
-                    console.error("Error al crear la tabla de productos:", err.message);
-                }
-            });
-        });
+                    FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE)`,
+                (err) => {
+                    if (err) {
+                        console.error("Error al crear la tabla de productos:", err.message);
+                    }
+                });
+        })
         // Código de sembrado
         const bcrypt = require('bcryptjs');
         const saltRounds = 10;
@@ -44,7 +44,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
                 console.error("Error al hashear la contraseña del admin:", err);
                 return;
             }
-            const adminInsert = 'INSERT OR IGNORE INTO users (username, password_hash, role) VALUES(?,?,?)';
+            const adminInsert = 'INSERT OR IGNORE INTO users (username, password_hash, role) VALUES (?,?,?)';
             db.run(adminInsert, ['admin', adminHash, 'admin']);
         });
         bcrypt.hash(userPassword, saltRounds, (err, userHash) => {
@@ -52,18 +52,19 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
                 console.error("Error al hashear la contraseña del usuario:", err);
                 return;
             }
-            const userInsert = 'INSERT OR IGNORE INTO users (username, password_hash, role) VALUES(?,?,?)';
+            const userInsert = 'INSERT OR IGNORE INTO users (username, password_hash, role) VALUES (?,?,?)';
             db.run(userInsert, ['user', userHash, 'user'], function (err) {
                 if (err) {
                     console.error(err.message);
                     return;
                 }
                 // Sembrar productos para el usuario normal
-                const productInsert = 'INSERT OR IGNORE INTO products (name, description, owner_id)VALUES(?,?,?)';
-                db.run(productInsert, ['Producto 1', 'Descripción del producto 1', 2]);
-                db.run(productInsert, ['Producto 2', 'Descripción del producto 2', 2]);
+                const productInsert = 'INSERT OR IGNORE INTO products (name, description, owner_id) VALUES (?,?,?)';
+                db.run(productInsert, ['Producto 1', 'Descripción del Producto 1', this.lastID]);
+                db.run(productInsert, ['Producto 2', 'Descripción del Producto 2', this.lastID]);
+                db.run(productInsert, ['Producto 3', 'Descripción del Producto 3', this.lastID]);
             });
-        })
+        });
     }
 });
 module.exports = db;
