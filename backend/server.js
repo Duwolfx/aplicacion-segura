@@ -26,7 +26,7 @@ app.listen(PORT, () => {
 console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
-// Archivo: backend/server.js
+
 //... (middleware existente)
 // Registrar rutas
 const authRoutes = require('./routes/auth');
