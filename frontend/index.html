@@ -17,7 +17,11 @@
         </div>
     </header>
     <main>
-        <section id="auth-view">
+        <section id="auth-switch">
+            <button id="show-login-btn">Iniciar Sesión</button>
+            <button id="show-register-btn">Registrarse</button>
+        </section>
+        <section id="register-view" class="hidden">
             <div class="form-container">
                 <h2>Registrarse</h2>
                 <form id="register-form">
@@ -26,6 +30,8 @@
                     <button type="submit">Registrar</button>
                 </form>
             </div>
+        </section>
+        <section id="login-view">
             <div class="form-container">
                 <h2>Iniciar Sesión</h2>
                 <form id="login-form">
@@ -52,6 +58,27 @@
         </section>
     </main>
     <script src="app.js"></script>
+    <script>
+        // Mostrar/ocultar vistas de login y registro
+        const loginView = document.getElementById('login-view');
+        const registerView = document.getElementById('register-view');
+        const showLoginBtn = document.getElementById('show-login-btn');
+        const showRegisterBtn = document.getElementById('show-register-btn');
+
+        showLoginBtn.addEventListener('click', () => {
+            loginView.classList.remove('hidden');
+            registerView.classList.add('hidden');
+        });
+
+        showRegisterBtn.addEventListener('click', () => {
+            registerView.classList.remove('hidden');
+            loginView.classList.add('hidden');
+        });
+
+        // Por defecto muestra login
+        loginView.classList.remove('hidden');
+        registerView.classList.add('hidden');
+    </script>
 </body>
 
 </html>
