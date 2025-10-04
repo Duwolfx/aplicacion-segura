@@ -1,14 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database/database');
-const { verifyToken } = require('./middleware/authMiddleware');
+const { verifyToken } = require('./middleware/authmiddleware');
 // Obtener todos los productos (público)
 router.get('/', (req, res) => {
+    debugger;
+    console.log('Obteniendo todos los productos...');
     const sql = "SELECT p.id, p.name, p.description, u.username as owner FROM products p JOIN users u ON p.owner_id = u.id";
     db.all(sql, (err, rows) => {
         if (err) {
+            console.log('Error al obtener productos:', err);
             return res.status(500).json({ error: err.message });
         }
+            console.log('Productos obtenidos:', rows);
         res.json({ products: rows });
     });
 });
